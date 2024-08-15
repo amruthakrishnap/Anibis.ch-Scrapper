@@ -23,13 +23,13 @@ This Python project is a web scraper designed to extract product information fro
    ```bash
    git clone https://github.com/yourusername/anibis-web-scraper.git
    cd anibis-web-scraper
-   ```bash
+```bash
 
 2. **Install dependencies::**
    
    ```bash
    pip install -r requirements.txt
-   ```bash
+```bash
    
 3. **Install Playwright browsers::**
 
