@@ -39,7 +39,7 @@ This Python project is a web scraper designed to extract product information fro
 
 1. **Edit the script:**
 
-   Update the `user_data_path` variable in the script to point to your Firefox profile. Modify the path according to your operating system.
+   Update the `user_data_path` variable in the script to point to your Firefox profile. Modify the path according to your operating system. For One time you need to run Headful mode to save cookies and bypass        captcha.Then for Next Runs you can do it with headless mode. Simply Change Headless=True in the code.
 
    - **MacOS:**
      ```python
