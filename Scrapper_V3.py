@@ -5,6 +5,8 @@ from playwright.sync_api import sync_playwright
 import time
 import re
 import base64
+import pyautogui
+import numpy as np
 
 # Prompt for URL and keyword
 # url = input("Enter Required URL Man....!! : ")
@@ -145,16 +147,47 @@ def download_image(img_url, folder, idx):
     except requests.exceptions.RequestException as e:
         print(f"Failed to download {img_url}: {e}")
 
+
+def human_like_mouse_move(start_pos, end_pos, offset_x=0, steps=50):
+    """Simulate a human-like mouse movement from start_pos to end_pos with an optional horizontal offset."""
+    x0, y0 = start_pos
+    x1, y1 = end_pos
+    
+    # Apply the horizontal offset to the end position
+    x1 += offset_x
+    
+    for i in range(steps):
+        t = i / (steps - 1)  # Normalized time
+        x = int(x0 + (x1 - x0) * t + np.random.normal(0, 2))  # Add some random noise
+        y = int(y0 + (y1 - y0) * t + np.random.normal(0, 2))  # Add some random noise
+        pyautogui.moveTo(x, y, duration=0.05)
+        time.sleep(np.random.uniform(0.02, 0.1))  # Random sleep to simulate human jitter
+
+def click_at_position(position):
+    """Move the mouse to the position and click."""
+    pyautogui.moveTo(position, duration=0.5)
+    pyautogui.click()
+
 def fetch_data():
     start_time = time.time()  # Start timing
     page_number = 1
     all_urls = []
 
     with sync_playwright() as p:
-        user_data_path = '/Users/{username}/documents/firefox/AK/Default2'  # Update this path as needed
-        context = p.firefox.launch_persistent_context(user_data_path, headless=False)
-        page = context.new_page()
+        browser =  p.firefox.launch()
+        context =  browser.new_context()
+        page =  context.new_page()
         page.goto(base_url)
+        start = (100, 100)
+        end = (400, 400)
+        offset_x = -70
+
+        
+        # Perform human-like mouse movement
+        human_like_mouse_move(start, end, offset_x=offset_x)
+    
+    # Click at the end position with the offset applied
+        click_at_position((end[0] + offset_x, end[1]))
         # page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
         time.sleep(5)
         print("entering")
